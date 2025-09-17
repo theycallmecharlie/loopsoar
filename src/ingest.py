@@ -40,7 +40,7 @@ class alertIngest:
                     incident.update({key:value})
         logging.info("Starting enrichment")
         enrich = Enrichment(incident)
-        await enrich.verifyioc()
+        await enrich.enrich()
         logging.info("Enrichment finished")
         triage = Triage(incident)
         await triage.starttriage()
