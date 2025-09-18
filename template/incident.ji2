@@ -26,11 +26,13 @@
 |----------|--------|------------|
 | {{ incident['triage'].get('severity','-') }} | {{ incident['triage'].get('bucket','-') }} | {{ incident['triage'].get('supressed','-') }} |
 
+
+{% if incident.get['actions'] %}
 ## Action Taken
 | Device ID | Hostname | IP | Incident ID | Result |
 |-----------|----------|----|--------------|--------|
 | {{ incident['actions'].get('device_id','-') }} | {{ incident['actions'].get('hostname','-') }} | {{ incident['actions'].get('ip','-') }} |{{ incident['actions'].get('incident_id','-') }} | {{ incident['actions'].get('result','-') }} |
-
+{% endif %}
 
 
 ---
