@@ -1,0 +1,48 @@
+# Incident Report - {{ incident['incident_id'] }}
+
+**Type:** {{ incident['type'] }}
+**Source:** {{ incident['source'] }}
+**Created At:** {{ incident['created_at'] }}
+
+---
+
+## Asset
+| Device ID | Hostname | IP | Allowlisted |
+|-----------|----------|----|-------------|
+| {{ incident['asset'].get('device_id','-') }} | {{ incident['asset'].get('hostname','-') }} | {{ incident['asset'].get('ip','-') }} | {{ incident['asset'].get('allowlisted','-') }} |
+
+---
+
+## Indicators
+| Type | Value | Risk | Allowlisted |
+|------|-------|------|-------------|
+{% for ind in incident.get('indicators', []) %}| {{ ind.get('type','-') }} | {{ ind.get('value','-') if ind.get('value') else "-" }} | {{ ind.get('risk') if ind.get('risk') is string else ind.get('risk', {}).get('score','-') }} | {{ ind.get('allowlisted','-') }} |
+{% endfor %}
+
+---
+
+## Triage
+| Severity | Bucket | Suppressed |
+|----------|--------|------------|
+| {{ incident['triage'].get('severity','-') }} | {{ incident['triage'].get('bucket','-') }} | {{ incident['triage'].get('supressed','-') }} |
+
+## Action Taken
+| Device ID | Hostname | IP | Incident ID | Result |
+|-----------|----------|----|--------------|--------|
+| {{ incident['actions'].get('device_id','-') }} | {{ incident['actions'].get('hostname','-') }} | {{ incident['actions'].get('ip','-') }} |{{ incident['actions'].get('incident_id','-') }} | {{ incident['actions'].get('result','-') }} |
+
+
+
+---
+
+## Techniques
+{% for t in incident.get('techniques', []) %}
+- {{ t }}
+{% endfor %}
+
+---
+
+## Raw Details
+| Collector | Rule ID | Provider | Workspace |
+|-----------|---------|---------|-----------|
+| {{ incident['raw'].get('collector','-') }} | {{ incident['raw'].get('rule_id','-') }} | {{ incident['raw'].get('provider','-') }} | {{ incident['raw'].get('workspace','-') }} |
