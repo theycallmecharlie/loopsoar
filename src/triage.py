@@ -1,6 +1,6 @@
 import logging
 from src.actions import Action
-from src.exportincident import exportincident
+from src.exportincident import ExportIncident
 
 
 class Triage:
@@ -10,7 +10,7 @@ class Triage:
         logging.info("Starting Triage")
         severity = 0
         base = self.incident["type"]
-        match(base):
+        match base:
             case "Malware":
                 severity+= 70
             case "Phishing":
@@ -38,7 +38,7 @@ class Triage:
         if self.incident.get("triage")["severity"] > 70 and self.incident.get("asset")["allowlisted"] == False:
             action = Action(self.incident)
             await action.isolate()
-        export = exportincident(self.incident)
+        export = ExportIncident(self.incident)
         await export.export_report()
 
     async def verifyallowlist(self,severity):
@@ -98,7 +98,7 @@ class Triage:
         else: self.incident["triage"]["supressed"] = False
         bucket = self.incident["triage"]["severity"]
         if bucket < 0: bucket = 0
-        match(bucket):
+        match bucket:
             case 0:
                 self.incident["triage"]["bucket"] = "Supressed"
             case sev if 1 <= sev <= 39:
@@ -111,7 +111,6 @@ class Triage:
                 self.incident["triage"]["bucket"] ="Critical"
         severity = severity+ioc_verified
         self.incident["triage"]["severity"] = severity
-        #print(self.incident)
         return self.incident
 
     async def mitretagging(self):

@@ -1,6 +1,6 @@
 if __name__ == '__main__':
     from sys import argv
-    from src.ingest import alertIngest
+    from src.ingest import AlertIngest
     import asyncio
     import logging
     import os
@@ -17,7 +17,7 @@ if __name__ == '__main__':
                             ])
         filepath = argv[1]
 
-        alertIngest = alertIngest(filepath)
+        alertIngest = AlertIngest(filepath)
         asyncio.run(alertIngest.load_alert())
 
     except FileNotFoundError: logging.error("File not Found")

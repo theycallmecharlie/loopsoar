@@ -2,7 +2,7 @@ import json
 import os
 from jinja2 import Template
 import logging
-class exportincident:
+class ExportIncident:
     def __init__(self, incident):
         self.incident = incident
     async def export_report(self):

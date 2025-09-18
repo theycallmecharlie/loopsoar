@@ -2,21 +2,24 @@ import json
 import logging
 from src.enrichment import Enrichment
 from src.triage import Triage
-class alertIngest:
+
+class AlertIngest:
     def __init__(self,file):
         self.alert = file
     async def load_alert(self):
         logging.info(f"Loading Alert {self.alert}")
         with open(self.alert, "r") as alert:
             alert_data = json.load(alert)
-        await self.normalizeAlert(alert_data)
-    async def normalizeAlert(self,alert_data):
+        await self.normalizealert(alert_data)
+
+    @staticmethod
+    async def normalizealert(alert_data):
         incident = {}
         incident.update({"incident_id":f"inc-{alert_data["alert_id"]}"})
         incident.update({"source_alert":alert_data})
         logging.info("Normalize Alert")
         for key in alert_data.keys():
-            match(key):
+            match key:
                 case "asset":
                     value = alert_data.get(key)
                     asset = {
@@ -28,10 +31,10 @@ class alertIngest:
                 case "indicators":
                     value = alert_data.get(key)
                     indicators = []
-                    for key in value.keys():
+                    for v in value.keys():
                         indicator = {
-                            "type": key,
-                            "value": (value.get(key)[0] if value.get(key) and len(value.get(key)) > 0 else None)
+                            "type": v,
+                            "value": (value.get(v)[0] if value.get(v) and len(value.get(v)) > 0 else None)
                         }
                         indicators.append(indicator)
                         incident.update({"indicators":indicators})
