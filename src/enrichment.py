@@ -30,6 +30,7 @@ class Enrichment:
                                     ioc.update({"risk":report})
                                 else:
                                     ioc.update({"risk": f"Artifact {ioc["value"]} not found on provider"})
+                                    logging.info(f"Artifact {ioc["value"]} not found on provider")
                 case "domains":
                     logging.info(f"Domain {ioc.get("value")} enrich")
                     if ioc.get("value") is not None:
@@ -49,6 +50,7 @@ class Enrichment:
                                 ioc.update({"risk": report})
                             else:
                                 ioc.update({"risk": f"Artifact {ioc["value"]} not found on provider"})
+                                logging.info(f"Artifact {ioc["value"]} not found on provider")
 
                     else:
                         pass
@@ -72,6 +74,7 @@ class Enrichment:
                                         ioc.update({"risk": report})
                                     else:
                                         ioc.update({"risk": f"Artifact {ioc["value"]} not found on provider"})
+                                        logging.info(f"Artifact {ioc["value"]} not found on provider")
                 case "urls":
                     if ioc.get("value") is not None:
                         logging.info(f"URL {ioc.get("value")} enrich")
@@ -99,6 +102,7 @@ class Enrichment:
                                         defang = ioc["value"].replace("http", "hxxp").replace(".", "[.]")
                                         ioc["value"] = defang
                                         ioc.update({"risk": f"Artifact {ioc["value"]} not found on provider"})
+                                        logging.info(f"Artifact {ioc["value"]} not found on provider")
 
                 case _:
                     logging.error("Unexpected artifact")
