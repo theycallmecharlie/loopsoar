@@ -3,8 +3,12 @@ if __name__ == '__main__':
     from src.ingest import alertIngest
     import asyncio
     import logging
-
+    import os
     try:
+        os.makedirs("logs/")
+    except FileExistsError: print("./logs exists")
+    try:
+
         logging.basicConfig(level=logging.INFO,
                             format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
                             handlers=[
@@ -12,6 +16,7 @@ if __name__ == '__main__':
                                 logging.StreamHandler()
                             ])
         filepath = argv[1]
+
         alertIngest = alertIngest(filepath)
         asyncio.run(alertIngest.load_alert())
 
