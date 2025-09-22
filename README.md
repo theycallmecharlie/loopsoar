@@ -46,6 +46,6 @@ You can simulate incidents using the JSON files provided in the `mocks/` and `al
 
 Example:  
 ```bash
-python main.py --alert alerts/sentinel.json
+python main.py alerts/sentinel.json
 ```
 
